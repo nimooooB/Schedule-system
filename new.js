@@ -227,25 +227,16 @@ function updateSubjectAndDescription() {
     scheduleTableBody.appendChild(newRow);
   
     resetForm();
-    showSuccessMessage("✓Successfully  added schedule.","green");
+    showSuccessMessage("✓ Successfully added schedule.", "green");
+
+    // Scroll to the "GENERATED SCHEDULE" section
+    var generatedScheduleSection = document.querySelector(".submit");
+    generatedScheduleSection.scrollIntoView({ behavior: "smooth" });
   } else {
-    alert("Please complete all the required inputs!.");
+    alert("Please complete all the required inputs!");
   }
   };
   
-  // Show success message
-  function showSuccessMessage(message, color) {
-  var successMessage = document.createElement("p");
-  successMessage.textContent = message;
-  successMessage.style.color = color;
-  successMessage.style.fontWeight ="bold";
-  successMessage.style.marginTop = "-127rem";
-  successMessage.style.marginLeft="55rem";
-  document.querySelector("html").appendChild(successMessage);
-  setTimeout(function() {
-    successMessage.remove();
-  }, 2500);
-  }
   
   // Reset the form
   function resetForm() {
@@ -348,8 +339,17 @@ function clearBlockOptions() {
 var generateButton = document.querySelector(".input2 button[name='generate']");
 generateButton.addEventListener("click", function(event) {
   event.preventDefault();
+
+  var input2TableRows = document.querySelectorAll(".input2 .table tbody tr");
+  if (input2TableRows.length === 0) {
+    alert("Please start scheduling before generating.");
+    return; // Exit the function if no rows are present
+  }
   generateSchedule();
 });
+
+
+
 
 // Function to transfer schedule from input2 to the main table
 var generateSchedule = function() {
@@ -373,6 +373,10 @@ var generateSchedule = function() {
     
     // Add the captured information to the main table
     addToMainTable(subjectCode, subjectDescription, instructor, day, time, room, block);
+
+    
+    input2TableBody.innerHTML = '';
+
   });
   
   updateSelectedInfo(inputCourse, inputYearSem, block);
@@ -383,14 +387,14 @@ var generateSchedule = function() {
 
 
   // Scroll to the main table
-  var mainTable = document.querySelector(".selected-info");
+  var mainTable = document.querySelector(".preheader");
   mainTable.scrollIntoView({ behavior: "smooth" }); // Scroll smoothly to the main table
 };
 
 // ... (Previous code) ...
 
 // Function to add a new row to the main table with additional block information
-function addToMainTable(subjectCode, subjectDescription, instructor, day, time, room, block) {
+function addToMainTable(subjectCode, subjectDescription, instructor, day, time, room,) {
   var mainTableBody = document.querySelector(".table-main tbody");
   var newRow = document.createElement("tr");
   
@@ -433,4 +437,38 @@ function updateSelectedInfo(course, yearSemester, block) {
 }
 
 
-// ... Rest of your code ...
+  
+
+
+// Function to hide rows in the main table that do not have matching cells SEARCH IN MAIN DIV
+
+  // Function to hide rows in the main table that do not have matching cells
+  function hideNonMatchingRows() {
+    var input, filter, table, tr, td, i, j, txtValue, matchFound;
+    input = document.getElementById("searchMain");
+    filter = input.value.toUpperCase();
+    table = document.querySelector(".table-main");
+    tr = table.getElementsByTagName("tr");
+
+    for (i = 1; i < tr.length; i++) { // Start from index 1 to skip table headers
+      td = tr[i].getElementsByTagName("td");
+      matchFound = false;
+
+      for (j = 0; j < td.length; j++) {
+        txtValue = td[j].textContent || td[j].innerText;
+        if (txtValue.toUpperCase().indexOf(filter) > -1) {
+          matchFound = true;
+          td[j].innerHTML = txtValue.replace(new RegExp(filter, 'gi'), '<span class="matching-text">$&</span>');
+        } else {
+          td[j].innerHTML = txtValue; // Restore original content
+        }
+      }
+
+      tr[i].style.display = matchFound ? "" : "none"; // Show or hide the row
+    }
+  }
+
+  // Attach the hideNonMatchingRows function to the search input's "input" event
+  var searchInput = document.getElementById("searchMain");
+  searchInput.addEventListener("input", hideNonMatchingRows);
+
