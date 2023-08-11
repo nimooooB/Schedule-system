@@ -123,6 +123,8 @@ p {
     overflow: auto;
 }
 
+
+
 .input2 h4{
 text-align: center;
 }
@@ -862,3 +864,36 @@ padding: 7px;
     }
     
 }
+
+
+/*----------dagdag------------*/
+
+.notification-container {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+}
+
+.notification {
+  background-color: rgba(255, 255, 255, 0.8);
+  color: white;
+  padding: 10px 20px;
+  border-radius: 5px;
+  font-weight: bold;
+  box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+/* Style for matching rows */
+.matching-text {
+  color: rgb(253, 248, 248);
+  font-weight: bold;
+  background-color: rgb(236, 8, 8);
+}
+
+
+
