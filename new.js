@@ -133,8 +133,6 @@ function updateSubjectAndDescription() {
   
   
   
-  
-
     // Set the selected subject code if it exists
     if (selectedSubjectCode) {
       subjectCodeSelect.value = selectedSubjectCode;
@@ -153,8 +151,6 @@ function updateSubjectAndDescription() {
   
   // Trigger initial update when the page loads
   updateSubjectAndDescription();
-  
-
   
   
   // Handle form submission for input1
@@ -179,28 +175,19 @@ function updateSubjectAndDescription() {
     // Create a new row in the schedule table
     var scheduleTableBody = document.getElementById("scheduleTableBody");
     var newRow = document.createElement("tr");
-  
     // Create cells for the row
-    
-  
     var subjectCell = document.createElement("td");
     subjectCell.textContent = selectedSubject;
-  
     var descriptionCell = document.createElement("td");
     descriptionCell.textContent = selectedDescription;
-  
     var instructorCell = document.createElement("td");
     instructorCell.textContent = selectedInstructor;
-  
     var dateCell = document.createElement("td");
     dateCell.textContent = selectedDate;
- 
     var timeCell = document.createElement("td");
     timeCell.textContent = selectedTime;
- 
     var roomCell = document.createElement("td");
     roomCell.textContent = selectedRoom;
-
     var deleteCell = document.createElement("td");
     var deleteButton = document.createElement("button");
     deleteButton.innerHTML = '<i class="fas fa-trash-alt"></i>';
@@ -209,11 +196,8 @@ function updateSubjectAndDescription() {
       var row = this.parentNode.parentNode;
       row.parentNode.removeChild(row);
       showSuccessMessage("✗Successfully deleted schedule.", "red");
-
-     
     });
     deleteCell.appendChild(deleteButton);
-  
     // Append cells to the row
     newRow.appendChild(subjectCell);
     newRow.appendChild(descriptionCell);
@@ -222,10 +206,26 @@ function updateSubjectAndDescription() {
    newRow.appendChild(timeCell); // Add time cell
    newRow.appendChild(roomCell); // Add room cell
     newRow.appendChild(deleteCell);
-  
     // Append the new row to the table body
     scheduleTableBody.appendChild(newRow);
   
+
+// Remove selected availability from the instructor's schedule
+if (instructorSchedules.hasOwnProperty(selectedInstructor)) {
+  var instructorSchedule = instructorSchedules[selectedInstructor];
+  var dateIndex = instructorSchedule.days.indexOf(selectedDate);
+  if (dateIndex !== -1) {
+    var timeIndex = instructorSchedule.times.indexOf(selectedTime);
+    var roomIndex = instructorSchedule.rooms.indexOf(selectedRoom);
+    
+    if (timeIndex !== -1 && roomIndex !== -1) {
+      // Update availability for the selected time and room
+      instructorSchedule.times.splice(timeIndex, 1);
+      instructorSchedule.rooms.splice(roomIndex, 1);
+    }
+  }
+}
+
     resetForm();
     showSuccessMessage("✓ Successfully added schedule.", "green");
 
@@ -236,8 +236,6 @@ function updateSubjectAndDescription() {
     alert("Please complete all the required inputs!");
   }
   };
-  
-  
   // Reset the form
   function resetForm() {
   document.getElementById("scode").value = "";
@@ -247,13 +245,10 @@ function updateSubjectAndDescription() {
   document.getElementById("time").value ="";
   document.getElementById("room").value ="";
   }
-  
-
   function updateBlockOptions() {
     var selectedCourse = document.getElementById("course").value;
     var blockSelect = document.getElementById("block");
     blockSelect.innerHTML = ""; // Clear existing options
-  
     if (selectedCourse === "Bachelor of Science in Computer Science (BSCS)") {
       var blockOptions = ["BSCS 1", "BSCS 2", "BSCS 3"];
     } else if (selectedCourse === "Two-year Associate in Computer Technology (ACT)") {
@@ -265,7 +260,6 @@ function updateSubjectAndDescription() {
     } else if (selectedCourse === ''){
       var blockOptions = []; // Default empty options if course is not selected
     }
-  
     // Generate the block select options
     for (var i = 0; i < blockOptions.length; i++) {
       var option = document.createElement("option");
@@ -274,7 +268,6 @@ function updateSubjectAndDescription() {
       blockSelect.appendChild(option);
     }
   }
-  
   // Add event listeners to handle changes in the course selection and year/semester
   var courseInput = document.getElementById("course");
   courseInput.addEventListener("change", function() {
@@ -287,6 +280,77 @@ function updateSubjectAndDescription() {
   
   // Trigger initial update when the page loads
   updateSubjectAndDescription();
+
+
+
+  var instructorSchedules = {
+    "Mr. Orlando D. Abundo": {
+      days:  ["","Monday", "Wednesday", "Friday"],
+      times: ["","7:30-8:00", "8:30-9:00"],
+      rooms: ["","Room 1", "Room 2"]
+    },
+    "Ms. Lalaine Adtoon": {
+      days:  ["","Tuesday", "Thursday"],
+      times: ["","9:30-10:00", "10:30-11:00"],
+      rooms: ["","Room 3", "Room 4"]
+    },
+    "Ms. Karen G. Andayog": {
+      days:  ["","Wednesday", "Thursday"],
+      times: ["","11:30-12:00", "12:30-1:00"],
+      rooms: ["","Room 5", "Room 6"]
+    }
+    // Add more instructors and their schedules here
+  };
+  
+  // Step 2: Update event listener for instructor input field
+  var instructorInput = document.getElementById("i/a");
+  instructorInput.addEventListener("input", updateAvailableSchedule);
+  
+  // Step 3: Implement the updateAvailableSchedule function
+  function updateAvailableSchedule() {
+    var selectedInstructor = instructorInput.value;
+    var daySelect = document.getElementById("day");
+    var timeSelect = document.getElementById("time");
+    var roomSelect = document.getElementById("room");
+  
+    if (selectedInstructor && instructorSchedules.hasOwnProperty(selectedInstructor)) {
+      var instructorSchedule = instructorSchedules[selectedInstructor];
+      updateSelectOptions(daySelect, instructorSchedule.days);
+      updateSelectOptions(timeSelect, instructorSchedule.times);
+      updateSelectOptions(roomSelect, instructorSchedule.rooms);
+    } else {
+      clearSelectOptions(daySelect);
+      clearSelectOptions(timeSelect);
+      clearSelectOptions(roomSelect);
+    }
+  }
+  
+  // Function to update select options
+  function updateSelectOptions(selectElement, optionsArray) {
+    selectElement.innerHTML = ""; // Clear existing options
+    for (var i = 0; i < optionsArray.length; i++) {
+      var option = document.createElement("option");
+      option.value = optionsArray[i];
+      option.text = optionsArray[i];
+      selectElement.appendChild(option);
+    }
+  }
+  
+  // Function to clear select options
+  function clearSelectOptions(selectElement) {
+    selectElement.innerHTML = '<option value="none"> </option>';
+  }
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -347,6 +411,8 @@ generateButton.addEventListener("click", function(event) {
   }
   generateSchedule();
 });
+
+
 
 
 
@@ -471,4 +537,14 @@ function updateSelectedInfo(course, yearSemester, block) {
   // Attach the hideNonMatchingRows function to the search input's "input" event
   var searchInput = document.getElementById("searchMain");
   searchInput.addEventListener("input", hideNonMatchingRows);
+
+
+
+
+
+
+
+
+
+
 
