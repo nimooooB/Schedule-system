@@ -1,0 +1,231 @@
+
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Home - Generate Schedule</title>
+  <link rel="shortcut icon" type="image/x-icon" href="img/logo.ico" />
+  <link href="//fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="new.css" type="text/css" media="all" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+
+
+  <link rel="stylesheet" href="new.css" media="print">
+</head>
+
+<body>
+  <div class="admin">
+  <img src="img/user.png">
+    <button type="submit" class="submit" name="logout">LOG OUT</button>
+  </div>
+  
+  <div class="box">
+    <div class="input1">
+      <div class="start">
+        <h4>START SCHEDULING</h4>
+      </div>
+      <hr>
+
+      <div class="course">
+        <label for="course">Select Course to Schedule:</label>
+        <input list="schedules" id="course" name="course schedule" autocomplete="off">
+        <datalist id="schedules">
+              <option value="Bachelor of Science in Computer Science (BSCS)"></option>
+              <option value="Two-year Associate in Computer Technology (ACT)"></option>
+              <option value="Bachelor of Arts in Information Technology (BAIT)"></option>
+
+        </datalist>
+      </div>
+      <div class="y-s">
+        <label for="year/semester">Select Year and Semester:</label>
+        <input list="year/semester" id="y/s" name="year semester" autocomplete="off">
+        <datalist id="year/semester">
+                <option value="1st Year - 1st Semester"></option>
+                <option value="1st Year - 2nd Semester"></option>
+                <option value="2nd Year - 1st Semester"></option>
+                <option value="2nd Year - 2nd Semester"></option>
+                <option value="3rd Year - 1st Semester"></option>
+                <option value="3rd Year - 2nd Semester"></option>
+                <option value="4th Year - 1st Semester"></option>
+                <option value="4th Year - 2nd Semester"></option>
+        </datalist>
+      </div>
+
+      <div class="ssc">
+        <label for="scode">Select Subject Code:</label>
+        <select id="scode" class="selectforsubjectcode" ></select>
+        
+      </div>
+
+      <div class="d">
+        <label for="sdescription">Course Description:</label>
+        <input type="text" id="c_d" name="courseD" autocomplete="off" readonly>
+      </div>
+
+      <div class="i-a">
+        <label for="saasigned">Instructor Assigned:</label>
+        <input list="Sinstruc" id="i/a" name="instructirA" autocomplete="off">
+        <datalist id="Sinstruc">
+          <option value="Mr. Orlando D. Abundo"></option>
+          <option value="Ms. Lalaine Adtoon"></option>
+          <option value="Ms. Karen G. Andayog"></option>
+
+        </datalist>
+      </div>
+
+      <div class="TDR">
+      <label for="day" >Day:</label>
+    <select id="day" name="day" class="day">
+      <option value="noneD"></option>
+      <option value="Monday">Monday</option>
+      <option value="Tuesday">Tuesday</option>
+      <option value="Wednesday">Wednesday</option>
+      <option value="Thursday">Thursday</option>
+      <option value="Friday">Friday</option>
+      <option value="Saturday">Saturday</option>
+    </select>
+
+    <label for="time">Time:</label>
+    <select id="time" name="time" class="time">
+      <option value="noneT"></option>
+      <option value="7:30-8:00">7:30-8:00</option>
+      
+    </select>
+    
+    <label for="room">Room:</label>
+    <select id="room" name="room" class="room">
+      <option value="noneR"></option>
+      <option value="Room 1">Room 1</option>
+    </select>
+
+  </div>
+
+
+      <div>
+        <button class="submit" id="submitButton1">SUBMIT</button>
+      </div>
+    </div>
+    
+    <div>
+      <div class="input2">
+        <div class="generate">
+          <h4>GENERATED SCHEDULE</h4>
+          <hr>
+          
+          <div class="Course">
+           
+            <div class="input-container1">
+              <input type="text" readonly class="inputC" id="inputCourse">
+              
+            </div>
+          
+           
+            <div class="input-container2">
+              <input type="text" readonly class="inputYS" id="inputYearSem">
+              
+            </div>
+          </div>
+          
+          
+          <div class="table">
+            <table class="table table-border">
+              <thead class="table1">
+                <tr>
+                 
+                  <th>Subject Code</th>
+                  <th>Subject Description</th>
+                  <th>Instructor</th>
+                  <th>Date</th>
+                  <th>Time</th>
+                  <th>Room</th>
+                  <th>Delete</th>
+                </tr>
+              </thead>
+              <tbody id="scheduleTableBody"></tbody>
+            </table>
+            <br>
+            
+
+  <div class="submit-block">
+          <div >
+            <label for="block"  class="BlOCK" >Number of Block:</label>
+    <select id="block" name="block" class="blockD" >
+      <option value="noneB"></option>
+    </select>
+    </div>
+<div> <button class="clearButton" id="clearButton" >Clear All</button></div>
+</div>
+
+
+
+
+<div>    
+          </div>
+        </div>
+        
+        <button class="submit" name="generate" id="submit2" > GENERATE SCHEDULE</button>
+      </div>
+    </div>
+  </div>
+
+  
+
+
+
+
+
+  <div>
+    <div class="preheader">
+      <hr>
+      <img src="img/logo.png">
+      <h4 class="h51">Dr. Ruby Lanting-Casaul Educational Foundation, Incorporated</h4>
+      <h5 class="h52">Tomas Cabiles St., Tabaco City</h5>
+    </div>
+  </div>
+
+  <div>
+    <div class="main">
+      <div class="search-container">
+        <input type="text" id="search" name="search" placeholder="Search..." class="searchmain">
+        <img src="img/find.png" alt="Search" class="search-icon">
+      </div>
+      <hr>
+
+<!-- ... Course-->
+  <!-- ... Year-Semester -->
+  <div class="selected-info" >
+    <p><span id="selectedCourseDisplay"></span></p>
+    <p><span id="selectedYearSemesterDisplay"></span></p>
+    
+  </div>
+  
+      <div class="table-main2" >
+        <table class="table-main">
+          <div id="selectedBlockDisplay" class="block-1"></div>
+          <thead class="table2">
+            <tr>
+              <th>Subject Code</th>
+              <th>Subject Description</th>
+              <th>Instructor</th>
+              <th>Day</th>
+              <th>Time</th>
+              <th>Room</th>
+              
+              
+            </tr>
+          </thead>
+          <tbody ></tbody>
+        </table>
+
+        <button class="print-button" type="print" id="printButton">PRINT</button>
+    </div>
+  </div>
+
+  <script src="new.js"></script>
+  <script src="print.js"></script>
+</body>
+
+</html>
