@@ -16,4 +16,17 @@ function printMainContent() {
     printWindow.print();
   }
   
-  
+   function showSuccessMessage(message, color) {
+    var notificationContainer = document.querySelector(".notification-container");
+    
+    var notification = document.createElement("div");
+    notification.textContent = message;
+    notification.className = "notification";
+    notification.style.color = color;
+    
+    notificationContainer.appendChild(notification);
+    
+    setTimeout(function() {
+      notification.remove();
+    }, 2500);
+  }
